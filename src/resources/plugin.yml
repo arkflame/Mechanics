@@ -1,0 +1,17 @@
+name: GameMechanics
+main: dev._2lstudios.mechanics.GameMechanics
+version: 0.0.1
+authors: [LinsaFTW, Sammwy]
+api-version: '1.8'
+softdepend:
+  - "PlaceholderAPI"
+  - "ProtocolLib"
+commands:
+  cobblestone:
+    aliases:
+      - cobble
+    description: "Toggles cobblestone pickup"
+  dirt:
+    description: "Toggles dirt pickup"
+  magnet:
+    description: "Toggles magnet mode"
