@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import dev._2lstudios.mechanics.managers.BrewingManager;
+import dev._2lstudios.mechanics.brewing.BrewingManager;
 import dev._2lstudios.mechanics.managers.EnchantingManager;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.VersionUtil;

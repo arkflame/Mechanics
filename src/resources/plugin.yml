@@ -1,5 +1,5 @@
-name: GameMechanics
-main: dev._2lstudios.mechanics.GameMechanics
+name: Mechanics
+main: dev._2lstudios.mechanics.Mechanics
 version: 0.0.1
 authors: [LinsaFTW, Sammwy]
 api-version: '1.8'

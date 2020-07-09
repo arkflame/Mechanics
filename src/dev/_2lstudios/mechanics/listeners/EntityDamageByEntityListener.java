@@ -56,13 +56,17 @@ public class EntityDamageByEntityListener implements Listener {
 						if (heldItem != null) {
 							final Material material = heldItem.getType();
 
-							if (material == Material.DIAMOND_AXE || material == Material.IRON_AXE
-									|| material == Material.STONE_AXE || material == Material.GOLD_AXE
-									|| material == Material.WOOD_AXE)
+							if (material == Material.getMaterial("DIAMOND_AXE")
+									|| material == Material.getMaterial("IRON_AXE")
+									|| material == Material.getMaterial("STONE_AXE")
+									|| material == Material.getMaterial("GOLD_AXE")
+									|| material == Material.getMaterial("WOOD_AXE"))
 								event.setDamage(damage - 3);
-							else if (material == Material.DIAMOND_SPADE || material == Material.IRON_SPADE
-									|| material == Material.STONE_SPADE || material == Material.GOLD_SPADE
-									|| material == Material.WOOD_SPADE)
+							else if (material == Material.getMaterial("DIAMOND_SPADE")
+									|| material == Material.getMaterial("IRON_SPADE")
+									|| material == Material.getMaterial("STONE_SPADE")
+									|| material == Material.getMaterial("GOLD_SPADE")
+									|| material == Material.getMaterial("WOOD_SPADE"))
 								event.setDamage(damage - 0.5);
 						}
 					}

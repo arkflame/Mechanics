@@ -17,7 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionType;
-import dev._2lstudios.mechanics.managers.BrewingManager;
+
+import dev._2lstudios.mechanics.brewing.BrewingManager;
 import dev._2lstudios.mechanics.managers.EnchantingManager;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.VersionUtil;
@@ -50,19 +51,22 @@ public class InventoryClickListener implements Listener {
 			final ItemStack currentItem = event.getCurrentItem();
 
 			if (currentItem != null) {
-				if (currentItem.equals(brewingManager.getBlackGlass())
-						|| currentItem.equals(brewingManager.getRedGlass())) {
+				if (containsEquals(currentItem, brewingManager.getGlasses())) {
 					event.setCancelled(true);
 				} else if (currentItem.equals(brewingManager.getCraftAnvil())) {
 					final Collection<Material> ingredientTypes = new HashSet<>();
 					final Inventory clickedInventory = event.getClickedInventory();
 					final HumanEntity whoClicked = event.getWhoClicked();
-					final ItemStack[] ingredients = new ItemStack[] { clickedInventory.getItem(20),
-							clickedInventory.getItem(21), clickedInventory.getItem(23), clickedInventory.getItem(24) };
+					final ItemStack[] ingredients = new ItemStack[5];
+
+					for (int i = 0; i < 5; i++) {
+						ingredients[i] = clickedInventory.getItem(20 + i);
+					}
 
 					for (final ItemStack ingredient : ingredients) {
-						if (ingredient != null)
+						if (ingredient != null) {
 							ingredientTypes.add(ingredient.getType());
+						}
 					}
 
 					if (!ingredientTypes.isEmpty()) {
@@ -160,5 +164,15 @@ public class InventoryClickListener implements Listener {
 				}
 			}
 		}
+	}
+
+	public boolean containsEquals(final Object object, final Object[] collection) {
+		for (final Object object1 : collection) {
+			if (object.equals(object1)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

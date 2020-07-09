@@ -33,7 +33,7 @@ public class Mechanics extends JavaPlugin {
 		final Material fenceMaterial;
 
 		// TODO: Version check
-		if (true) {
+		if (!true) {
 			// 1.13
 			fenceMaterial = Material.getMaterial("IRON_BARS");
 		} else {
@@ -41,11 +41,11 @@ public class Mechanics extends JavaPlugin {
 			fenceMaterial = Material.getMaterial("IRON_FENCE");
 		}
 
-		final ShapedRecipe bookRecipe = new ShapedRecipe(new ItemStack(Material.BOOK));
-		final ShapedRecipe chainmailHelmet = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET));
-		final ShapedRecipe chainmailChestplate = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
-		final ShapedRecipe chainmailLeggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS));
-		final ShapedRecipe chainmailBoots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS));
+		final ShapedRecipe bookRecipe = new ShapedRecipe(new ItemStack(Material.BOOK)),
+				chainmailHelmet = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET)),
+				chainmailChestplate = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_CHESTPLATE)),
+				chainmailLeggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS)),
+				chainmailBoots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS));
 
 		bookRecipe.shape("BB");
 		bookRecipe.setIngredient('B', Material.ENCHANTED_BOOK);

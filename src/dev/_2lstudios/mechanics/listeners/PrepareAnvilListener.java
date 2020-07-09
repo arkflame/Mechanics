@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
+
 import dev._2lstudios.mechanics.managers.EnchantingManager;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 
@@ -29,17 +30,15 @@ public class PrepareAnvilListener implements Listener {
 			if (inventoryLocation != null) {
 				final Block block = inventoryLocation.getBlock();
 
-				if (block != null) {
-					block.setData((byte) 0);
-				}
+				block.setType(Material.ANVIL);
 			}
 
 			if (result != null) {
 				final Material material = result.getType();
 
-				if (material == Material.TRIPWIRE_HOOK)
+				if (material == Material.TRIPWIRE_HOOK) {
 					event.setResult(new ItemStack(Material.AIR));
-				else if (material != Material.AIR) {
+				} else if (material != Material.AIR) {
 					enchantingManager.fixEnchants(result);
 
 					if (anvilInventory.getRepairCost() > 2) {

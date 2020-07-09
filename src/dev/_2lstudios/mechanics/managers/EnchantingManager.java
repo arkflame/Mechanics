@@ -84,12 +84,13 @@ public class EnchantingManager {
 			}
 
 			for (final Enchantment enchantment : new HashSet<>(enchantments.keySet())) {
-				if (!damageLimit && enchantment.getName().equals(Enchantment.DAMAGE_ALL.getName())
+				final String enchantmentName = enchantment.getName();
+
+				if (!damageLimit && enchantmentName.equals(Enchantment.DAMAGE_ALL.getName())
 						&& enchantments.get(enchantment) > 2) {
 					enchantments.put(Enchantment.DAMAGE_ALL, 2);
 					damageLimit = true;
-				} else if (!protectionLimit
-						&& enchantment.getName().equals(Enchantment.PROTECTION_ENVIRONMENTAL.getName())
+				} else if (!protectionLimit && enchantmentName.equals(Enchantment.PROTECTION_ENVIRONMENTAL.getName())
 						&& enchantments.get(enchantment) > 2) {
 					enchantments.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 					protectionLimit = true;

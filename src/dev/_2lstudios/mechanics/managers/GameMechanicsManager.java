@@ -2,6 +2,8 @@ package dev._2lstudios.mechanics.managers;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.Plugin;
+
+import dev._2lstudios.mechanics.brewing.BrewingManager;
 import dev._2lstudios.mechanics.player.PlayerManager;
 import dev._2lstudios.mechanics.utils.ConfigurationUtil;
 
