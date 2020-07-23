@@ -34,27 +34,37 @@ public class PlayerDeathListener implements Listener {
 		final Location playerLocation = player.getLocation(),
 				spawnLocation = server.getWorlds().get(0).getSpawnLocation();
 
-		if (player.getFallDistance() > 2) {
-			player.setFallDistance(0);
+		if (player.getFireTicks() > 0) {
+			player.setFireTicks(-1);
 		}
 
-		if (player.getVehicle() != null)
+		if (player.getFallDistance() > 1) {
+			player.setFallDistance(-1);
+		}
+
+		if (player.getVehicle() != null) {
 			player.leaveVehicle();
+		}
 
-		if (player.getHealth() < 20)
+		if (player.getHealth() < 20) {
 			player.setHealth(20);
+		}
 
-		if (player.getFoodLevel() < 20)
+		if (player.getFoodLevel() < 20) {
 			player.setFoodLevel(20);
+		}
 
-		if (player.getSaturation() < 4.0f)
+		if (player.getSaturation() < 4.0f) {
 			player.setSaturation(4.0f);
+		}
 
-		if (player.getExp() > 0)
+		if (player.getExp() > 0) {
 			player.setExp(0);
+		}
 
-		if (player.getLevel() > 0)
+		if (player.getLevel() > 0) {
 			player.setLevel(0);
+		}
 
 		for (final PotionEffect potionEffect : player.getActivePotionEffects()) {
 			player.removePotionEffect(potionEffect.getType());

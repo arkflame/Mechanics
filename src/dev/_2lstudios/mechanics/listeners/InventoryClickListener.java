@@ -1,6 +1,10 @@
 package dev._2lstudios.mechanics.listeners;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BrewingStand;
@@ -22,9 +26,6 @@ import dev._2lstudios.mechanics.brewing.BrewingManager;
 import dev._2lstudios.mechanics.managers.EnchantingManager;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.VersionUtil;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 public class InventoryClickListener implements Listener {
 	final private Plugin plugin;
@@ -57,6 +58,7 @@ public class InventoryClickListener implements Listener {
 					final Collection<Material> ingredientTypes = new HashSet<>();
 					final Inventory clickedInventory = event.getClickedInventory();
 					final HumanEntity whoClicked = event.getWhoClicked();
+					final Location whoClickedLocation = whoClicked.getLocation();
 					final ItemStack[] ingredients = new ItemStack[5];
 
 					for (int i = 0; i < 5; i++) {
@@ -102,7 +104,7 @@ public class InventoryClickListener implements Listener {
 						}
 
 						if (bottleCount > 0) {
-							if (brewingManager.tryCraftPotion(event.getWhoClicked().getLocation(), whoClickedInventory,
+							if (brewingManager.tryCraftPotion(whoClicked.getLocation(), whoClickedInventory,
 									waterBottles, ingredientTypes)) {
 								final InventoryHolder inventoryHolder = clickedInventory.getHolder();
 
@@ -126,10 +128,10 @@ public class InventoryClickListener implements Listener {
 								}
 
 								if (VersionUtil.isOneDotNine()) {
-									whoClicked.getWorld().playSound(whoClicked.getLocation(),
+									whoClickedLocation.getWorld().playSound(whoClickedLocation,
 											Sound.valueOf("ENTITY_EXPERIENCE_ORB_PICKUP"), 1, 8);
 								} else {
-									whoClicked.getWorld().playSound(whoClicked.getLocation(),
+									whoClickedLocation.getWorld().playSound(whoClickedLocation,
 											Sound.valueOf("ORB_PICKUP"), 1, 8);
 								}
 
@@ -140,12 +142,13 @@ public class InventoryClickListener implements Listener {
 										ingredient.setAmount(ingredient.getAmount() - 1);
 								}
 
-								if (VersionUtil.isOneDotNine())
-									whoClicked.getWorld().playSound(whoClicked.getLocation(),
+								if (VersionUtil.isOneDotNine()) {
+									whoClickedLocation.getWorld().playSound(whoClickedLocation,
 											Sound.valueOf("ENTITY_ENDERMEN_TELEPORT"), 0.5F, 8);
-								else
-									whoClicked.getWorld().playSound(whoClicked.getLocation(),
+								} else {
+									whoClickedLocation.getWorld().playSound(whoClickedLocation,
 											Sound.valueOf("ENDERMAN_TELEPORT"), 0.5F, 8);
+								}
 
 								whoClicked.sendMessage(ChatColor.RED
 										+ "No has logrado crear ninguna pocion! Nota: Las pociones de fuerza estan deshabilitadas");

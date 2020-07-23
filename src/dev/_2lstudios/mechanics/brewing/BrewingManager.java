@@ -231,7 +231,6 @@ public class BrewingManager {
 							if (ingredients.contains(ingredient)) {
 								optional = true;
 								currentIngredients++;
-								break;
 							}
 						}
 					} else {
