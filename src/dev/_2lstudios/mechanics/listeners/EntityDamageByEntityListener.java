@@ -1,7 +1,14 @@
 package dev._2lstudios.mechanics.listeners;
 
+import dev._2lstudios.mechanics.utils.VersionUtil;
+import java.util.Collection;
+import java.util.HashSet;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,68 +17,76 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
-import dev._2lstudios.mechanics.utils.VersionUtil;
 
 public class EntityDamageByEntityListener implements Listener {
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
-		final double damage = event.getDamage();
+    private Collection<Material> axes = new HashSet<>();
+    private Collection<Material> spades = new HashSet<>();
 
-		if (damage > 0) {
-			final EntityDamageEvent.DamageCause damageCause = event.getCause();
-			final Entity hitEntity = event.getEntity();
+    public EntityDamageByEntityListener() {
+        this.axes.add(Material.getMaterial("DIAMOND_AXE"));
+        this.axes.add(Material.getMaterial("IRON_AXE"));
+        this.axes.add(Material.getMaterial("STONE_AXE"));
+        this.axes.add(Material.getMaterial("GOLD_AXE"));
+        this.axes.add(Material.getMaterial("WOOD_AXE"));
 
-			if (VersionUtil.isOneDotNine() && damageCause == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
-				event.setCancelled(true);
-			else if (hitEntity instanceof LivingEntity) {
-				final LivingEntity hitLivingEntity = (LivingEntity) hitEntity;
-				final int hitDelay = 20;
+        this.spades.add(Material.getMaterial("DIAMOND_SPADE"));
+        this.spades.add(Material.getMaterial("IRON_SPADE"));
+        this.spades.add(Material.getMaterial("STONE_SPADE"));
+        this.spades.add(Material.getMaterial("GOLD_SPADE"));
+        this.spades.add(Material.getMaterial("WOOD_SPADE"));
+    }
 
-				if (hitLivingEntity.getMaximumNoDamageTicks() != hitDelay)
-					hitLivingEntity.setMaximumNoDamageTicks(hitDelay);
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityDamageByEntityLow(EntityDamageByEntityEvent event) {
+        EntityDamageEvent.DamageCause damageCause = event.getCause();
 
-				if (VersionUtil.isOneDotNine()) {
-					final Entity damager = event.getDamager();
+        if (event.getDamager() instanceof org.bukkit.entity.EnderPearl
+                || (VersionUtil.isOneDotNine() && damageCause == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
+            event.setCancelled(true);
+        }
+    }
 
-					if (damager instanceof Projectile) {
-						final Projectile projectile = (Projectile) damager;
-						final EntityType projectileType = projectile.getType();
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onEntityDamageByEntityHigh(EntityDamageByEntityEvent event) {
+        double damage = event.getDamage();
 
-						if (projectileType == EntityType.ARROW)
-							event.setDamage(damage / 2);
+        if (damage > 0.0D) {
+            Entity hitEntity = event.getEntity();
 
-						if (hitLivingEntity.getNoDamageTicks() < hitDelay / 2
-								&& (projectileType == EntityType.ENDER_PEARL || projectileType == EntityType.SNOWBALL
-										|| projectileType == EntityType.EGG
-										|| projectileType == EntityType.FISHING_HOOK)) {
-							final Vector velocity = projectile.getVelocity();
+            if (hitEntity instanceof LivingEntity) {
+                LivingEntity hitLivingEntity = (LivingEntity) hitEntity;
 
-							hitLivingEntity.damage(0.01);
-							hitLivingEntity.setVelocity(velocity.normalize().multiply(0.35).setY(0.32));
-						}
-					} else if (damager instanceof HumanEntity) {
-						final PlayerInventory inventory = ((HumanEntity) damager).getInventory();
-						final ItemStack heldItem = inventory.getItem(inventory.getHeldItemSlot());
+                if (VersionUtil.isOneDotNine()) {
+                    Entity damager = event.getDamager();
 
-						if (heldItem != null) {
-							final Material material = heldItem.getType();
+                    if (damager instanceof Projectile) {
+                        Projectile projectile = (Projectile) damager;
+                        EntityType projectileType = projectile.getType();
 
-							if (material == Material.getMaterial("DIAMOND_AXE")
-									|| material == Material.getMaterial("IRON_AXE")
-									|| material == Material.getMaterial("STONE_AXE")
-									|| material == Material.getMaterial("GOLD_AXE")
-									|| material == Material.getMaterial("WOOD_AXE"))
-								event.setDamage(damage - 3);
-							else if (material == Material.getMaterial("DIAMOND_SPADE")
-									|| material == Material.getMaterial("IRON_SPADE")
-									|| material == Material.getMaterial("STONE_SPADE")
-									|| material == Material.getMaterial("GOLD_SPADE")
-									|| material == Material.getMaterial("WOOD_SPADE"))
-								event.setDamage(damage - 0.5);
-						}
-					}
-				}
-			}
-		}
-	}
+                        if (projectileType == EntityType.ARROW) {
+                            event.setDamage(damage / 2.0D);
+                        } else {
+                            Vector velocity = projectile.getVelocity();
+
+                            hitLivingEntity.damage(0.01D);
+                            hitLivingEntity.setVelocity(velocity.normalize().multiply(0.35D).setY(0.32D));
+                        }
+                    } else if (damager instanceof HumanEntity) {
+                        PlayerInventory inventory = ((HumanEntity) damager).getInventory();
+                        ItemStack heldItem = inventory.getItem(inventory.getHeldItemSlot());
+
+                        if (heldItem != null) {
+                            Material material = heldItem.getType();
+
+                            if (this.axes.contains(material)) {
+                                event.setDamage(damage - 3.0D);
+                            } else if (this.spades.contains(material)) {
+                                event.setDamage(damage - 0.5D);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

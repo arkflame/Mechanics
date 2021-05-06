@@ -8,10 +8,14 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class PlayerRespawnListener implements Listener {
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-	public void onPlayerRespawn(final PlayerRespawnEvent event) {
-		final Player player = event.getPlayer();
+  @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+  public void onPlayerRespawn(PlayerRespawnEvent event) {
+    Player player = event.getPlayer();
 
-		player.teleport(event.getRespawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-	}
+    if (player.getFireTicks() > 1) {
+      player.setFireTicks(1);
+    }
+
+    player.teleport(event.getRespawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+  }
 }

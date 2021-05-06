@@ -11,25 +11,19 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 public class ProjectileLaunchListener implements Listener {
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onProjectileLaunch(final ProjectileLaunchEvent event) {
-		final Projectile projectile = event.getEntity();
-		final EntityType projectileType = projectile.getType();
-		final ProjectileSource shooter = projectile.getShooter();
+  @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+  public void onProjectileLaunch(ProjectileLaunchEvent event) {
+    Projectile projectile = event.getEntity();
+    EntityType projectileType = projectile.getType();
+    ProjectileSource shooter = projectile.getShooter();
 
-		if (shooter instanceof Player)
-			if (projectileType == EntityType.ARROW || projectileType == EntityType.ENDER_PEARL
-					|| projectileType == EntityType.SNOWBALL || projectileType == EntityType.EGG) {
-				final Player player = (Player) shooter;
-				final Vector direction = player.getLocation().getDirection();
-				final double velocityLenght = projectile.getVelocity().length();
+    if (shooter instanceof Player && (projectileType == EntityType.ARROW || projectileType == EntityType.ENDER_PEARL
+        || projectileType == EntityType.SNOWBALL || projectileType == EntityType.EGG)) {
+      Player player = (Player) shooter;
+      Vector direction = player.getLocation().getDirection();
+      double velocityLenght = projectile.getVelocity().length();
 
-				projectile.setVelocity(direction.normalize().multiply(velocityLenght));
-			} else if (projectileType == EntityType.SPLASH_POTION && ((Player) shooter).isSprinting()) {
-				final Vector velocity = projectile.getVelocity();
-
-				velocity.setY(-90);
-				projectile.setVelocity(velocity);
-			}
-	}
+      projectile.setVelocity(direction.normalize().multiply(velocityLenght));
+    }
+  }
 }

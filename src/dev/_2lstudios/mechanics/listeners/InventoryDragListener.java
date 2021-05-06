@@ -6,9 +6,10 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 public class InventoryDragListener implements Listener {
-	@EventHandler(ignoreCancelled = true)
-	public void onInventoryDrag(final InventoryDragEvent event) {
-		if (event.getInventory().getType() == InventoryType.CRAFTING && event.getInventorySlots().contains(40))
-			event.setCancelled(true);
-	}
+  @EventHandler(ignoreCancelled = true)
+  public void onInventoryDrag(InventoryDragEvent event) {
+    if (event.getInventory().getType() == InventoryType.CRAFTING
+        && event.getInventorySlots().contains(Integer.valueOf(40)))
+      event.setCancelled(true);
+  }
 }

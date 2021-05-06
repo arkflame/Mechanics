@@ -3,36 +3,39 @@ package dev._2lstudios.mechanics.brewing;
 import org.bukkit.Material;
 
 class BrewingPotion {
-    private final Material[] requiredMaterials, optionalMaterials;
-    private final boolean splash, extended;
-    private final short data;
+  private final Material[] requiredMaterials;
+  private final Material[] optionalMaterials;
 
-    public BrewingPotion(final Material[] requiredMaterials, final Material[] optionalMaterials, final boolean splash,
-            final boolean extended, final short data) {
-        this.requiredMaterials = requiredMaterials;
-        this.optionalMaterials = optionalMaterials;
-        this.splash = splash;
-        this.extended = extended;
-        this.data = data;
-    }
+  public BrewingPotion(Material[] requiredMaterials, Material[] optionalMaterials, boolean splash, boolean extended,
+      short data) {
+    this.requiredMaterials = requiredMaterials;
+    this.optionalMaterials = optionalMaterials;
+    this.splash = splash;
+    this.extended = extended;
+    this.data = data;
+  }
 
-    public Material[] getRequiredMaterials() {
-        return requiredMaterials;
-    }
+  private final boolean splash;
+  private final boolean extended;
+  private final short data;
 
-    public Material[] getOptionalMaterials() {
-        return optionalMaterials;
-    }
+  public Material[] getRequiredMaterials() {
+    return this.requiredMaterials;
+  }
 
-    public boolean isSplash() {
-        return splash;
-    }
+  public Material[] getOptionalMaterials() {
+    return this.optionalMaterials;
+  }
 
-    public boolean isExtended() {
-        return extended;
-    }
+  public boolean isSplash() {
+    return this.splash;
+  }
 
-    public short getData() {
-        return data;
-    }
+  public boolean isExtended() {
+    return this.extended;
+  }
+
+  public short getData() {
+    return this.data;
+  }
 }

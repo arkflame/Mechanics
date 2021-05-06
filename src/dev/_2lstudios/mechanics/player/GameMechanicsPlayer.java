@@ -1,29 +1,40 @@
 package dev._2lstudios.mechanics.player;
 
+import org.bukkit.entity.Player;
+
 public class GameMechanicsPlayer {
-	private boolean magnet = true, cobblestone = false, dirt = false;
+  private final Player player;
+  private boolean magnet = true, cobblestone = false, dirt = false;
 
-	public void setMagnet(boolean magnet) {
-		this.magnet = magnet;
-	}
+  public GameMechanicsPlayer(Player player) {
+    this.player = player;
+  }
 
-	public boolean isMagnet() {
-		return magnet;
-	}
+  public void setMagnet(boolean magnet) {
+    this.magnet = magnet;
+  }
 
-	public void setCobblestone(final boolean cobblestone) {
-		this.cobblestone = cobblestone;
-	}
+  public boolean isMagnet() {
+    return this.magnet;
+  }
 
-	public boolean isCobblestone() {
-		return this.cobblestone;
-	}
+  public void setCobblestone(boolean cobblestone) {
+    this.cobblestone = cobblestone;
+  }
 
-	public void setDirt(final boolean dirt) {
-		this.dirt = dirt;
-	}
+  public boolean isCobblestone() {
+    return this.cobblestone;
+  }
 
-	public boolean isDirt() {
-		return this.dirt;
-	}
+  public void setDirt(boolean dirt) {
+    this.dirt = dirt;
+  }
+
+  public boolean isDirt() {
+    return this.dirt;
+  }
+
+  public Player getPlayer() {
+    return this.player;
+  }
 }

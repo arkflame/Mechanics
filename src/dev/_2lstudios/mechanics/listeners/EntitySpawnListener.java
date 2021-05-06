@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class EntitySpawnListener implements Listener {
-	@EventHandler(ignoreCancelled = true)
-	public void onEntitySpawn(final EntitySpawnEvent event) {
-		final Entity entity = event.getEntity();
+  @EventHandler(ignoreCancelled = true)
+  public void onEntitySpawn(EntitySpawnEvent event) {
+    Entity entity = event.getEntity();
 
-		if (entity != null && entity.getType() == EntityType.ENDER_CRYSTAL)
-			event.setCancelled(true);
-	}
+    if (entity != null && entity.getType() == EntityType.ENDER_CRYSTAL)
+      event.setCancelled(true);
+  }
 }
