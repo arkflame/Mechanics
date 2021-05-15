@@ -24,20 +24,12 @@ public class SoundManager {
     addSound("ITEM_ARMOR_EQUIP_GENERIC");
   }
 
-  private void addSound(String soundString) {
-    Sound[] sounds = Sound.values();
-    byte b;
-    int i;
-    Sound[] arrayOfSound1;
-    for (i = (arrayOfSound1 = sounds).length, b = 0; b < i;) {
-      Sound sound = arrayOfSound1[b];
-      if (sound.toString().equals(soundString)) {
-        this.sounds.add(Sound.valueOf(soundString));
-        break;
+  private void addSound(String name) {
+    for (final Sound sound : Sound.values()) {
+      if (sound.name().equals(name)) {
+        sounds.add(sound);
       }
-      b++;
     }
-
   }
 
   public Collection<Sound> getSounds() {
