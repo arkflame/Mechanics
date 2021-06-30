@@ -116,10 +116,10 @@ public class InventoryClickListener implements Listener {
                 for (int m = (arrayOfItemStack = ingredients).length; k < m;) {
                   ItemStack ingredient = arrayOfItemStack[k];
                   if (ingredient != null) {
-                    int amount = ingredient.getAmount() - 1;
+                    int amount = ingredient.getAmount();
 
-                    if (amount > 0) {
-                      ingredient.setAmount(amount);
+                    if (amount > 1) {
+                      ingredient.setAmount(amount - 1);
                     } else {
                       clickedInventory.remove(ingredient);
                     }
