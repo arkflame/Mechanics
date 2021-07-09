@@ -42,8 +42,8 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-public class ListenerInitializer {
-  public ListenerInitializer(Plugin plugin, GameMechanicsManager gameMechanicsManager) {
+public class MechanicsListeners {
+  public static void register(Plugin plugin, GameMechanicsManager gameMechanicsManager) {
     Server server = plugin.getServer();
     PluginManager pluginManager = server.getPluginManager();
 

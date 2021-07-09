@@ -3,6 +3,7 @@ package dev._2lstudios.mechanics;
 import dev._2lstudios.mechanics.commands.CobblestoneCMD;
 import dev._2lstudios.mechanics.commands.DirtCMD;
 import dev._2lstudios.mechanics.commands.MagnetCMD;
+import dev._2lstudios.mechanics.listeners.initializers.MechanicsListeners;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.ConfigurationUtil;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Mechanics extends JavaPlugin {
   private static GameMechanicsManager instance;
 
-  public static synchronized void setInstance(GameMechanicsManager instance) {
+  public static synchronized void setInstance(final GameMechanicsManager instance) {
     Mechanics.instance = instance;
   }
 
@@ -28,25 +29,28 @@ public class Mechanics extends JavaPlugin {
   }
 
   public void onEnable() {
-    setInstance(new GameMechanicsManager((Plugin) this, new ConfigurationUtil((Plugin) this)));
+    final GameMechanicsManager gameMechanicsManager = new GameMechanicsManager(this, new ConfigurationUtil(this));
 
-    Server server = getServer();
-    PluginManager pluginManager = server.getPluginManager();
+    setInstance(gameMechanicsManager);
 
-    if (pluginManager.isPluginEnabled("ProtocolLib"))
-      ;
+    final Server server = getServer();
+    final PluginManager pluginManager = server.getPluginManager();
 
-    for (Player player : server.getOnlinePlayers()) {
+    if (pluginManager.isPluginEnabled("ProtocolLib")) {
+
+    }
+
+    for (final Player player : server.getOnlinePlayers()) {
       instance.getPlayerManager().add(player);
     }
 
-    Material fenceMaterial = Material.getMaterial("IRON_FENCE");
+    final Material fenceMaterial = Material.getMaterial("IRON_FENCE");
 
-    ShapedRecipe bookRecipe = new ShapedRecipe(new ItemStack(Material.BOOK));
-    ShapedRecipe chainmailHelmet = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET));
-    ShapedRecipe chainmailChestplate = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
-    ShapedRecipe chainmailLeggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS));
-    ShapedRecipe chainmailBoots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS));
+    final ShapedRecipe bookRecipe = new ShapedRecipe(new ItemStack(Material.BOOK));
+    final ShapedRecipe chainmailHelmet = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET));
+    final ShapedRecipe chainmailChestplate = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
+    final ShapedRecipe chainmailLeggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS));
+    final ShapedRecipe chainmailBoots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS));
 
     bookRecipe.shape(new String[] { "BB" });
     bookRecipe.setIngredient('B', Material.ENCHANTED_BOOK);
@@ -69,12 +73,12 @@ public class Mechanics extends JavaPlugin {
     server.addRecipe((Recipe) chainmailLeggings);
     server.addRecipe((Recipe) chainmailBoots);
 
+    MechanicsListeners.register(this, gameMechanicsManager);
+
     getCommand("cobblestone").setExecutor((CommandExecutor) new CobblestoneCMD(instance));
     getCommand("dirt").setExecutor((CommandExecutor) new DirtCMD(instance));
     getCommand("magnet").setExecutor((CommandExecutor) new MagnetCMD(instance));
 
-    server.getScheduler().runTaskTimer((Plugin) this, () -> instance.getBlockManager().clear(),
-
-        20L, 20L);
+    server.getScheduler().runTaskTimer((Plugin) this, () -> instance.getBlockManager().clear(), 20L, 20L);
   }
 }

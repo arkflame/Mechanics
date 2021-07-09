@@ -1,8 +1,8 @@
 name: Mechanics
 main: dev._2lstudios.mechanics.Mechanics
 version: 0.0.1
-authors: [LinsaFTW, Sammwy]
-api-version: '1.8'
+author: LinsaFTW
+api-version: '1.13'
 softdepend:
   - "PlaceholderAPI"
   - "ProtocolLib"
