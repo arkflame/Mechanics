@@ -31,7 +31,7 @@ public class ItemSpawnListener implements Listener {
     Item item = event.getEntity();
     ItemStack itemStack = item.getItemStack();
 
-    if (itemStack.getAmount() != 0) {
+    if (itemStack != null && itemStack.getAmount() != 0) {
       Material type = itemStack.getType();
 
       if (type == Material.GOLD_ORE) {
@@ -43,27 +43,29 @@ public class ItemSpawnListener implements Listener {
       }
 
       Block block = event.getLocation().getBlock();
-      GameMechanicsPlayer gameMechanicsPlayer = this.playerManager.get(this.blockManager.getBreaker(block));
+      Player player = this.blockManager.getBreaker(block);
 
-      if (gameMechanicsPlayer != null && gameMechanicsPlayer.isMagnet()) {
-        Player player = gameMechanicsPlayer.getPlayer();
+      if (player != null) {
+        GameMechanicsPlayer gameMechanicsPlayer = this.playerManager.get(player);
 
-        if (player != null && player.isOnline()) {
-          PlayerInventory playerInventory = player.getInventory();
+        if (gameMechanicsPlayer != null && gameMechanicsPlayer.isMagnet()) {
+          if (player != null && player.isOnline()) {
+            PlayerInventory playerInventory = player.getInventory();
 
-          if (playerInventory.firstEmpty() != -1
-              && (!gameMechanicsPlayer.isCobblestone() || type != Material.COBBLESTONE)
-              && (!gameMechanicsPlayer.isDirt() || itemStack.getType() != Material.COBBLESTONE)) {
-            float pitch = (float) Math.max(1.0D, Math.random() * 3.0D);
+            if (playerInventory.firstEmpty() != -1
+                && (!gameMechanicsPlayer.isCobblestone() || type != Material.COBBLESTONE)
+                && (!gameMechanicsPlayer.isDirt() || itemStack.getType() != Material.COBBLESTONE)) {
+              float pitch = (float) Math.max(1.0D, Math.random() * 3.0D);
 
-            if (VersionUtil.isOneDotNine()) {
-              player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.25F, pitch);
-            } else {
-              player.playSound(player.getLocation(), Sound.valueOf("ITEM_PICKUP"), 0.25F, pitch);
+              if (VersionUtil.isOneDotNine()) {
+                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.25F, pitch);
+              } else {
+                player.playSound(player.getLocation(), Sound.valueOf("ITEM_PICKUP"), 0.25F, pitch);
+              }
+
+              playerInventory.addItem(new ItemStack[] { itemStack });
+              event.setCancelled(true);
             }
-
-            playerInventory.addItem(new ItemStack[] { itemStack });
-            event.setCancelled(true);
           }
         }
       }
