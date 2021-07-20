@@ -21,53 +21,68 @@ public class ItemSpawnListener implements Listener {
   private final BlockManager blockManager;
   private final PlayerManager playerManager;
 
-  public ItemSpawnListener(GameMechanicsManager gameMechanicsManager) {
+  public ItemSpawnListener(final GameMechanicsManager gameMechanicsManager) {
     this.blockManager = gameMechanicsManager.getBlockManager();
     this.playerManager = gameMechanicsManager.getPlayerManager();
   }
 
   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-  public void onItemSpawn(ItemSpawnEvent event) {
-    Item item = event.getEntity();
-    ItemStack itemStack = item.getItemStack();
+  public void onItemSpawn(final ItemSpawnEvent event) {
+    final Item item = event.getEntity();
 
-    if (itemStack != null && itemStack.getAmount() != 0) {
-      Material type = itemStack.getType();
+    if (item == null) {
+      return;
+    }
 
-      if (type == Material.GOLD_ORE) {
-        itemStack.setType(Material.GOLD_INGOT);
-      } else if (type == Material.IRON_ORE) {
-        itemStack.setType(Material.IRON_INGOT);
-      } else if (type == Material.COBBLESTONE && Math.random() <= 0.5D) {
-        itemStack.setAmount(itemStack.getAmount() + 1);
+    final ItemStack itemStack = item.getItemStack();
+
+    if (itemStack == null || itemStack.getAmount() <= 0) {
+      return;
+    }
+
+    final Material type = itemStack.getType();
+
+    if (type == Material.GOLD_ORE) {
+      itemStack.setType(Material.GOLD_INGOT);
+    } else if (type == Material.IRON_ORE) {
+      itemStack.setType(Material.IRON_INGOT);
+    } else if (type == Material.COBBLESTONE && Math.random() <= 0.5D) {
+      itemStack.setAmount(itemStack.getAmount() + 1);
+    }
+
+    final Block block = event.getLocation().getBlock();
+
+    if (block == null) {
+      return;
+    }
+
+    final Player player = this.blockManager.getBreaker(block);
+
+    if (player == null) {
+      return;
+    }
+
+    final GameMechanicsPlayer gameMechanicsPlayer = this.playerManager.get(player);
+
+    if (gameMechanicsPlayer != null && gameMechanicsPlayer.isMagnet()) {
+      if (player == null || !player.isOnline() || player.isDead()) {
+        return;
       }
 
-      Block block = event.getLocation().getBlock();
-      Player player = this.blockManager.getBreaker(block);
+      final PlayerInventory playerInventory = player.getInventory();
 
-      if (player != null) {
-        GameMechanicsPlayer gameMechanicsPlayer = this.playerManager.get(player);
+      if (playerInventory.firstEmpty() != -1 && (!gameMechanicsPlayer.isCobblestone() || type != Material.COBBLESTONE)
+          && (!gameMechanicsPlayer.isDirt() || itemStack.getType() != Material.DIRT)) {
+        final float pitch = (float) Math.max(1.0D, Math.random() * 3.0D);
 
-        if (gameMechanicsPlayer != null && gameMechanicsPlayer.isMagnet()) {
-          if (player != null && player.isOnline()) {
-            PlayerInventory playerInventory = player.getInventory();
-
-            if (playerInventory.firstEmpty() != -1
-                && (!gameMechanicsPlayer.isCobblestone() || type != Material.COBBLESTONE)
-                && (!gameMechanicsPlayer.isDirt() || itemStack.getType() != Material.COBBLESTONE)) {
-              float pitch = (float) Math.max(1.0D, Math.random() * 3.0D);
-
-              if (VersionUtil.isOneDotNine()) {
-                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.25F, pitch);
-              } else {
-                player.playSound(player.getLocation(), Sound.valueOf("ITEM_PICKUP"), 0.25F, pitch);
-              }
-
-              playerInventory.addItem(new ItemStack[] { itemStack });
-              event.setCancelled(true);
-            }
-          }
+        if (VersionUtil.isOneDotNine()) {
+          player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.25F, pitch);
+        } else {
+          player.playSound(player.getLocation(), Sound.valueOf("ITEM_PICKUP"), 0.25F, pitch);
         }
+
+        playerInventory.addItem(new ItemStack[] { itemStack });
+        event.setCancelled(true);
       }
     }
   }
