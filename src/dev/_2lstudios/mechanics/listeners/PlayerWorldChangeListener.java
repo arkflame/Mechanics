@@ -14,8 +14,9 @@ public class PlayerWorldChangeListener implements Listener {
     if (VersionUtil.isOneDotNine()) {
       AttributeInstance attributeInstance = event.getPlayer().getAttribute(Attribute.GENERIC_ATTACK_SPEED);
 
-      if (attributeInstance.getBaseValue() != 512.0D)
+      if (attributeInstance.getBaseValue() != 512.0D) {
         attributeInstance.setBaseValue(512.0D);
+      }
     }
   }
 }

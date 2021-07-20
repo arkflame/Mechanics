@@ -31,8 +31,10 @@ public class PlayerItemConsumeListener implements Listener {
           int duration = potionEffect.getDuration();
           int amplifier = potionEffect.getAmplifier();
 
-          if (duration < 100 && amplifier <= 0 && type.equals(PotionEffectType.REGENERATION))
+          if (duration < 100 && amplifier <= 0 && type.equals(PotionEffectType.REGENERATION)) {
             player.removePotionEffect(type);
+          }
+
           if (duration < 200 && amplifier <= 0 && type.equals(PotionEffectType.ABSORPTION)) {
             player.removePotionEffect(type);
           }
