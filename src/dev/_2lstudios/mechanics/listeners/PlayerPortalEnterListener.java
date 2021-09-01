@@ -9,13 +9,17 @@ import org.bukkit.event.player.PlayerPortalEvent;
 
 public class PlayerPortalEnterListener implements Listener {
   @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
-  public void onPlayerPortal(PlayerPortalEvent event) {
-    Location from = event.getFrom();
-    Location to = event.getTo();
-    World fromWorld = from.getWorld();
-    World toWorld = to.getWorld();
+  public void onPlayerPortal(final PlayerPortalEvent event) {
+    final Location from = event.getFrom();
+    final Location to = event.getTo();
 
-    if (fromWorld != toWorld && toWorld.getEnvironment() == World.Environment.THE_END)
-      event.setTo(toWorld.getSpawnLocation());
+    if (to != null) {
+      final World fromWorld = from.getWorld();
+      final World toWorld = to.getWorld();
+
+      if (fromWorld != toWorld && toWorld.getEnvironment() == World.Environment.THE_END) {
+        event.setTo(toWorld.getSpawnLocation());
+      }
+    }
   }
 }
