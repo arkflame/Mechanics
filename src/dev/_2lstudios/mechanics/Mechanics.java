@@ -1,9 +1,10 @@
 package dev._2lstudios.mechanics;
 
+import dev._2lstudios.mechanics.adapters.MechanicsAdapters;
 import dev._2lstudios.mechanics.commands.CobblestoneCMD;
 import dev._2lstudios.mechanics.commands.DirtCMD;
 import dev._2lstudios.mechanics.commands.MagnetCMD;
-import dev._2lstudios.mechanics.listeners.initializers.MechanicsListeners;
+import dev._2lstudios.mechanics.listeners.MechanicsListeners;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.ConfigurationUtil;
 import org.bukkit.Material;
@@ -73,6 +74,7 @@ public class Mechanics extends JavaPlugin {
     server.addRecipe((Recipe) chainmailLeggings);
     server.addRecipe((Recipe) chainmailBoots);
 
+    MechanicsAdapters.register(this, gameMechanicsManager);
     MechanicsListeners.register(this, gameMechanicsManager);
 
     getCommand("cobblestone").setExecutor((CommandExecutor) new CobblestoneCMD(instance));
