@@ -4,6 +4,8 @@ import dev._2lstudios.mechanics.managers.BlockManager;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.managers.MaterialManager;
 import java.util.Map;
+
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -27,6 +29,11 @@ public class BlockBreakListener implements Listener {
   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
   public void onBlockBreak(BlockBreakEvent event) {
     Player player = event.getPlayer();
+
+    if (player.getGameMode() != GameMode.SURVIVAL) {
+      return;
+    }
+
     PlayerInventory playerInventory = player.getInventory();
     Block block = event.getBlock();
     Material material = block.getType();
