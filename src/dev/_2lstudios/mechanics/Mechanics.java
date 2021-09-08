@@ -1,5 +1,15 @@
 package dev._2lstudios.mechanics;
 
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import dev._2lstudios.mechanics.adapters.MechanicsAdapters;
 import dev._2lstudios.mechanics.commands.CobblestoneCMD;
 import dev._2lstudios.mechanics.commands.DirtCMD;
@@ -7,16 +17,6 @@ import dev._2lstudios.mechanics.commands.MagnetCMD;
 import dev._2lstudios.mechanics.listeners.MechanicsListeners;
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
 import dev._2lstudios.mechanics.utils.ConfigurationUtil;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class Mechanics extends JavaPlugin {
   private static GameMechanicsManager instance;
