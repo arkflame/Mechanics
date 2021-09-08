@@ -53,7 +53,7 @@ public class Mechanics extends JavaPlugin {
     final ShapedRecipe chainmailLeggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS));
     final ShapedRecipe chainmailBoots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS));
 
-    bookRecipe.shape(new String[] { "BB" });
+    bookRecipe.shape(new String[] { "B" });
     bookRecipe.setIngredient('B', Material.ENCHANTED_BOOK);
 
     chainmailHelmet.shape(new String[] { "BBB", "B B" });
@@ -68,11 +68,11 @@ public class Mechanics extends JavaPlugin {
     chainmailBoots.shape(new String[] { "B B", "B B" });
     chainmailBoots.setIngredient('B', fenceMaterial);
 
-    server.addRecipe((Recipe) bookRecipe);
-    server.addRecipe((Recipe) chainmailHelmet);
-    server.addRecipe((Recipe) chainmailChestplate);
-    server.addRecipe((Recipe) chainmailLeggings);
-    server.addRecipe((Recipe) chainmailBoots);
+    server.addRecipe(bookRecipe);
+    server.addRecipe(chainmailHelmet);
+    server.addRecipe(chainmailChestplate);
+    server.addRecipe(chainmailLeggings);
+    server.addRecipe(chainmailBoots);
 
     MechanicsAdapters.register(this, gameMechanicsManager);
     MechanicsListeners.register(this, gameMechanicsManager);
