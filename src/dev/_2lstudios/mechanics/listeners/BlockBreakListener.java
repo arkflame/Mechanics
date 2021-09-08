@@ -21,25 +21,25 @@ public class BlockBreakListener implements Listener {
   private final BlockManager blockManager;
   private final MaterialManager materialManager;
 
-  public BlockBreakListener(GameMechanicsManager gameMechanicsManager) {
+  public BlockBreakListener(final GameMechanicsManager gameMechanicsManager) {
     this.blockManager = gameMechanicsManager.getBlockManager();
     this.materialManager = gameMechanicsManager.getMaterialManager();
   }
 
   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-  public void onBlockBreak(BlockBreakEvent event) {
-    Player player = event.getPlayer();
+  public void onBlockBreak(final BlockBreakEvent event) {
+    final Player player = event.getPlayer();
 
     if (player.getGameMode() != GameMode.SURVIVAL) {
       return;
     }
 
-    PlayerInventory playerInventory = player.getInventory();
-    Block block = event.getBlock();
-    Material material = block.getType();
-    Material material1 = this.materialManager.getMaterial(material);
-    String materialName = material.name();
-    ItemStack heldItem = playerInventory.getItem(playerInventory.getHeldItemSlot());
+    final PlayerInventory playerInventory = player.getInventory();
+    final Block block = event.getBlock();
+    final Material material = block.getType();
+    final Material material1 = this.materialManager.getMaterial(material);
+    final String materialName = material.name();
+    final ItemStack heldItem = playerInventory.getItem(playerInventory.getHeldItemSlot());
 
     this.blockManager.addBreaker(block, player);
 
@@ -47,14 +47,14 @@ public class BlockBreakListener implements Listener {
       block.setType(material1);
     }
 
-    int expToDrop = event.getExpToDrop();
+    final int expToDrop = event.getExpToDrop();
 
     if ((materialName.endsWith("ORE") || materialName.endsWith("STONE")) && Math.random() <= 0.5D) {
       event.setExpToDrop(expToDrop + 1);
     }
 
     if (heldItem != null && expToDrop > 0) {
-      Map<Enchantment, Integer> enchantments = heldItem.getEnchantments();
+      final Map<Enchantment, Integer> enchantments = heldItem.getEnchantments();
 
       if (enchantments.containsKey(Enchantment.LOOT_BONUS_BLOCKS))
         event.setExpToDrop(expToDrop * (((Integer) enchantments.get(Enchantment.LOOT_BONUS_BLOCKS)).intValue() + 1));
