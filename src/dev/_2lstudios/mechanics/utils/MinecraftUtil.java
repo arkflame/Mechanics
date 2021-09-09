@@ -3,7 +3,10 @@ package dev._2lstudios.mechanics.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import com.comphenix.protocol.wrappers.BlockPosition;
+
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class MinecraftUtil {
@@ -33,5 +36,9 @@ public class MinecraftUtil {
 
     public static boolean isInteractable(final Block block) {
         return block == null ? false : isInteractable(block.getType());
+    }
+
+    public static Block getBlockAt(final World world, final BlockPosition blockPosition) {
+        return world.getBlockAt(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
     }
 }
