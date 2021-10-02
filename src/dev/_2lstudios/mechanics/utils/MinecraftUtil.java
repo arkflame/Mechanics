@@ -28,7 +28,7 @@ public class MinecraftUtil {
             Material.getMaterial("REDSTONE_COMPARATOR_OFF"), Material.getMaterial("REDSTONE_COMPARATOR_ON"),
             Material.getMaterial("SIGN"), Material.getMaterial("SIGN_POST"), Material.getMaterial("STORAGE_MINECART"),
             Material.getMaterial("TRAP_DOOR"), Material.getMaterial("TRAPPED_CHEST"), Material.getMaterial("WALL_SIGN"),
-            Material.getMaterial("WOOD_BUTTON"), Material.getMaterial("WOOD_DOOR"));
+            Material.getMaterial("WOOD_BUTTON"), Material.getMaterial("WOOD_DOOR"), Material.getMaterial("WORKBENCH"));
 
     public static boolean isInteractable(final Material material) {
         return interactables.contains(material);
