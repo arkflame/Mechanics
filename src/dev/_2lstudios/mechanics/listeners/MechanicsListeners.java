@@ -1,6 +1,8 @@
 package dev._2lstudios.mechanics.listeners;
 
 import dev._2lstudios.mechanics.managers.GameMechanicsManager;
+import dev._2lstudios.mechanics.utils.VersionUtil;
+
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -9,6 +11,10 @@ public class MechanicsListeners {
   public static void register(Plugin plugin, GameMechanicsManager gameMechanicsManager) {
     Server server = plugin.getServer();
     PluginManager pluginManager = server.getPluginManager();
+
+    if (VersionUtil.isOneDotNine()) {
+      pluginManager.registerEvents(new ProjectileHitListener(server), plugin);
+    }
 
     pluginManager.registerEvents(new BlockBreakListener(gameMechanicsManager), plugin);
     pluginManager.registerEvents(new BlockDamageListener(gameMechanicsManager), plugin);
@@ -44,7 +50,6 @@ public class MechanicsListeners {
     pluginManager.registerEvents(new PotionSplashListener(), plugin);
     pluginManager.registerEvents(new PrepareAnvilListener(gameMechanicsManager), plugin);
     pluginManager.registerEvents(new PrepareItemCraftListener(gameMechanicsManager), plugin);
-    pluginManager.registerEvents(new ProjectileHitListener(server), plugin);
     pluginManager.registerEvents(new ProjectileLaunchListener(), plugin);
   }
 }
