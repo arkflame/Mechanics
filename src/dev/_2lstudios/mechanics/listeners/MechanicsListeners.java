@@ -16,7 +16,6 @@ public class MechanicsListeners {
     pluginManager.registerEvents(new BlockFromToListener(), plugin);
     pluginManager.registerEvents(new BlockPlaceListener(gameMechanicsManager), plugin);
     pluginManager.registerEvents(new BrewListener(), plugin);
-    pluginManager.registerEvents(new ChunkUnloadListener(), plugin);
     pluginManager.registerEvents(new EnchantItemListener(gameMechanicsManager), plugin);
     pluginManager.registerEvents(new EntityDamageByEntityListener(), plugin);
     pluginManager.registerEvents(new EntityDamageListener(), plugin);
