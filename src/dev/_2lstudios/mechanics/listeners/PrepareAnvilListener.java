@@ -14,24 +14,24 @@ import org.bukkit.inventory.ItemStack;
 public class PrepareAnvilListener implements Listener {
   private final EnchantingManager enchantingManager;
 
-  public PrepareAnvilListener(GameMechanicsManager gameMechanicsManager) {
+  public PrepareAnvilListener(final GameMechanicsManager gameMechanicsManager) {
     this.enchantingManager = gameMechanicsManager.getEnchantingManager();
   }
 
   @EventHandler(ignoreCancelled = true)
-  public void onPrepareAnvil(PrepareAnvilEvent event) {
-    AnvilInventory anvilInventory = event.getInventory();
-    Location inventoryLocation = anvilInventory.getLocation();
-    ItemStack result = event.getResult();
+  public void onPrepareAnvil(final PrepareAnvilEvent event) {
+    final AnvilInventory anvilInventory = event.getInventory();
+    final Location inventoryLocation = anvilInventory.getLocation();
+    final ItemStack result = event.getResult();
 
     if (inventoryLocation != null) {
-      Block block = inventoryLocation.getBlock();
+      final Block block = inventoryLocation.getBlock();
 
-      block.setData((byte) 1);
+      block.setType(block.getType());
     }
 
     if (result != null) {
-      Material material = result.getType();
+      final Material material = result.getType();
 
       if (material == Material.TRIPWIRE_HOOK) {
         event.setResult(new ItemStack(Material.AIR));
