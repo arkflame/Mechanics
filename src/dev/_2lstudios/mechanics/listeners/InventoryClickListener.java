@@ -131,7 +131,7 @@ public class InventoryClickListener implements Listener {
                   BrewingStand brewingStand = (BrewingStand) inventoryHolder;
 
                   this.plugin.getServer().getPluginManager()
-                      .callEvent(new BrewEvent(brewingStand.getBlock(), brewingStand.getInventory(), null, 20));
+                      .callEvent(new BrewEvent(brewingStand.getBlock(), brewingStand.getInventory(), 20));
                 }
 
                 if (VersionUtil.isOneDotNine()) {
