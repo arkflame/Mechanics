@@ -54,15 +54,18 @@ class BlockPlaceAdapter extends PacketAdapter {
               final BlockPosition blockPosition = positionModifier.read(0);
               final Player player = event.getPlayer();
               final Block targetBlock = MinecraftUtil.getBlockAt(player.getWorld(), blockPosition);
-              final Material targetBlockType = targetBlock.getType();
-              final boolean isAir = targetBlock == null || targetBlockType == Material.AIR;
 
-              if (isAir || !MinecraftUtil.isInteractable(targetBlockType)) {
-                final Action actionType = isAir ? Action.RIGHT_CLICK_AIR : Action.RIGHT_CLICK_BLOCK;
+              if (targetBlock != null) {
+                final Material targetBlockType = targetBlock.getType();
+                final boolean isAir = targetBlock == null || targetBlockType == Material.AIR;
 
-                scheduler.runTask(plugin, () -> pluginManager
-                    .callEvent(new PlayerInteractEvent(player, actionType, itemStack, targetBlock, BlockFace.UP)));
-                event.setCancelled(true);
+                if (isAir || !MinecraftUtil.isInteractable(targetBlockType)) {
+                  final Action actionType = isAir ? Action.RIGHT_CLICK_AIR : Action.RIGHT_CLICK_BLOCK;
+
+                  scheduler.runTask(plugin, () -> pluginManager
+                      .callEvent(new PlayerInteractEvent(player, actionType, itemStack, targetBlock, BlockFace.UP)));
+                  event.setCancelled(true);
+                }
               }
             }
           }

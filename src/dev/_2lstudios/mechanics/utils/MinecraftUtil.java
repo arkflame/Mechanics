@@ -38,7 +38,22 @@ public class MinecraftUtil {
         return block == null ? false : isInteractable(block.getType());
     }
 
+    public static int floor(double num) {
+        int floor = (int) num;
+        return floor == num ? floor : floor - (int) (Double.doubleToRawLongBits(num) >>> 63);
+    }
+
     public static Block getBlockAt(final World world, final BlockPosition blockPosition) {
-        return world.getBlockAt(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+        int x = blockPosition.getX();
+        int y = blockPosition.getY();
+        int z = blockPosition.getZ();
+        int chunkX = floor(x) >> 4;
+        int chunkZ = floor(z) >> 4;
+
+        if (world.isChunkLoaded(chunkX, chunkZ)) {
+            return world.getBlockAt(x, y ,z);
+        } else {
+            return null;
+        }
     }
 }
